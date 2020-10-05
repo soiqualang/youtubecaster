@@ -1,3 +1,3 @@
 #!/bin/bash
 
-PORT=9090 node server.js
+PORT=9065 node server.js
