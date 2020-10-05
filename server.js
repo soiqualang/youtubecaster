@@ -1,6 +1,6 @@
 
 const express = require('express');
-const through = require('through');
+//const through = require('through');
 const path = require('path');
 
 const stream = require('youtube-audio-stream')
@@ -10,7 +10,7 @@ const decoder = require('lame').Decoder
 const app = express();
 const PORT = process.env.PORT;
 
-function write(buf) {
+/*function write(buf) {
     console.log('writing...');
     this.queue('okkkk');
 }
@@ -20,7 +20,7 @@ function end() {
 }
 
 var str = through(write, end);
-
+*/
 
 app.get('/', function(req, res) {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
