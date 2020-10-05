@@ -14,5 +14,8 @@
     "lame": "^1.2.4",
     "through": "^2.3.8",
     "youtube-audio-stream": "^0.3.6"
+  },
+  "engines": {
+    "node": "12.x"
   }
 }
