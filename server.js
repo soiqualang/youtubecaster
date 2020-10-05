@@ -5,7 +5,7 @@ const path = require('path');
 
 const stream = require('youtube-audio-stream')
 const decoder = require('lame').Decoder
-const speaker = require('speaker')
+//const speaker = require('speaker')
 
 const app = express();
 const PORT = process.env.PORT;
