@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<title>youtubecaster</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<!--link href="style.css" rel="stylesheet" type="text/css" /-->
+<style>
+</style>
+</head>
+
+<body>
+
+<input id="url" size="50" type="text" placeholder="paste youtube url" value="https://www.youtube.com/watch?v=nzqpG_0xBfA" />
+
+<audio id="audio" src=""></audio>
+
+<button id="play">play</button>
+<button id="pause">pause</button>
+
+<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+<script>
+
+var port = 9090;
+var url = $('#url').val();
+
+var audio$ = $('#audio');
+
+$('#play').on('click', function(e) {
+
+	var ori = location.origin,//location.protocol+'//'+location.hostname + ':'+ location.port + '/stream?url=';
+		url = $('#url').val(),
+		src= ori+'/stream?url='+url;
+
+	console.log(src);
+
+	audio$.attr('src',src);
+
+	audio$[0].play();
+});
+
+$('#pause').on('click', function(e) {
+	audio$[0].pause();
+});
+
+</script> 
+</body>
+</html>
+
