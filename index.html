@@ -94,9 +94,7 @@ paste youtube link and listen in background like a podcast!
 <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
 <script>
 
-var port = 9090;
-var url = $('#url').val();
-
+var url$ = $('#url');
 var audio$ = $('#audio');
 
 audio$.on('playing', function(e) {
@@ -120,6 +118,16 @@ $('#play').on('click', function(e) {
 $('#pause').on('click', function(e) {
 	audio$[0].pause();
 });
+
+async function paste(input) {
+  const text = await navigator.clipboard.readText();
+  if(text.substr(0,4)=='http')
+  	input.value = text;
+}
+
+url$.on('focus', function(e) {
+	paste(this);
+})
 
 </script> 
 </body>
