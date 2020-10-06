@@ -94,6 +94,8 @@ paste youtube link and listen in background like a podcast!
 <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
 <script>
 
+$("meta[property='og\\:image']").attr("content", location.origin+'/logo.svg');
+
 var url$ = $('#url');
 var audio$ = $('#audio');
 
