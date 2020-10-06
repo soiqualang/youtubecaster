@@ -48,6 +48,9 @@ button {
 	width: 80%;
 	margin: 0 auto;
 }
+.playing {
+	visibility: hidden;
+}
 </style>
 </head>
 
@@ -58,6 +61,7 @@ button {
 <br />
 <input id="url" type="text" placeholder="paste link here" value="" />
 <br />
+<div class="playing">
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin:auto;background:#fff;display:block;" width="50px" height="50px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
 <circle cx="18" cy="50" r="4" fill="#e15b64">
   <animate attributeName="cy" values="34;66;34" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="0s" repeatCount="indefinite"></animate>
@@ -77,6 +81,7 @@ button {
   <animate attributeName="cy" values="34;66;34" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="-0.875s" repeatCount="indefinite"></animate>
 </circle>
 </svg>
+</div>
 <button id="play">play</button>
 <button id="pause">pause</button>
 <br />
@@ -96,7 +101,10 @@ var url = $('#url').val();
 var audio$ = $('#audio');
 
 audio$.on('playing', function(e) {
-	$('#play').css('background','red')
+	$('.playing').css('visibility','visible')
+})
+.on('pause ended', function(e) {
+	$('.playing').css('visibility','hidden')
 });
 
 $('#play').on('click', function(e) {
