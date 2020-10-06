@@ -1,0 +1,22 @@
+{
+  "name": "youtubecaster",
+  "description": "",
+  "repository": "https://github.com/stefanocudini/youtubecaster",
+  "logo": "https://raw.githubusercontent.com/stefanocudini/youtubecaster/master/icon.svg",
+  "keywords": ["streaming", "podcast"],
+  "env": {
+    "HEROKU_APP_NAME": {
+      "description": "Please re-enter your App Name",
+      "required": true
+    },
+    "DEPLOY_PLATFORM": "heroku"
+  },
+  "buildpacks": [
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
+    },
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
