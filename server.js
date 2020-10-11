@@ -47,7 +47,7 @@ app.get('/stream', function(req, res) {
 
 	var u = new URL(req.query.url);
 
-	console.log('Process url...', u.href);
+	console.log('Process stream...', u.href);
 	
 	if(u.pathname==='/watch') {	//one video
 		console.log('Video loading: ',u.href)
@@ -103,8 +103,11 @@ app.get('/video', function(req, res) {
 
 			res.json(out);
 		}).catch((err) => {
-			console.log('Error:', err.code, err.message);
-			res.json({err: 'video not found'})
+			console.log('Error:', err.message);
+			var mes = 'video not found';
+			if(err.message=='Status code: 429')
+				mes = 'too many requests please try again later';
+			res.json({err: mes})
 		});
 	}
 });
