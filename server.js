@@ -17,15 +17,13 @@ const PORT = process.env.PORT || 9065;
 
 function sec2min(d) {
     d = Number(d);
-    var h = Math.floor(d / 3600);
-    var m = Math.floor(d % 3600 / 60);
-    var s = Math.floor(d % 3600 % 60);
-
-    var hDisplay = h > 0 ? h + ':' : '';
-    var mDisplay = m > 0 ? m + ':' : '';
-    var sDisplay = s;
-    function z(n) {return("0" + n).slice(-2);}
-    return z(hDisplay) + z(mDisplay) + z(sDisplay); 
+    var h = Math.floor(d / 3600),
+    	m = Math.floor(d % 3600 / 60),
+    	s = Math.floor(d % 3600 % 60),
+    	H = h > 0 ? h + ':' : '',
+    	M = m > 0 ? m + ':' : '';;
+    function z(n) {return('0' + n).slice(-2);}
+    return z(H) + z(M) + z(s); 
 }
 
 app.use((req, res, next) => {
