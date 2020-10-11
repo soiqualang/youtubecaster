@@ -72,7 +72,6 @@ ul {
 	width: 100%;
 	margin: 0 auto;
 	clear: both;
-	overflow-x: hidden;
 }
 li {
 	list-style: none;
@@ -113,7 +112,7 @@ li img {
 	height: 60px;
 }
 li progress {
-	width: 100%;
+	width: auto;
 	height: 6px;
 	position: absolute;
 	left: 100px;
@@ -222,7 +221,6 @@ window.app = {
 		},3000);
 	}
 };
-
 
 
 audio$.on('playing', function(e) {
