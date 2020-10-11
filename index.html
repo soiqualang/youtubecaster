@@ -194,20 +194,22 @@ $('#play').on('click', function(e) {
 
 	var url = $.trim($('#url').val());
 
-	if(url.includes('/playlist')) {
-		$.getJSON(location.origin+'/playlist?url='+url, (json)=> {
+	if($('#list li').length==0) {
+		if(url.includes('/playlist')) {
+			$.getJSON(location.origin+'/playlist?url='+url, (json)=> {
 
-			if(json.items.length)
-				$('#list').html(tmplItems(json));
-		});
-	}
-	else if(url.includes('/watch')) {
+				if(json.items.length)
+					$('#list').html(tmplItems(json));
+			});
+		}
+		else if(url.includes('/watch')) {
 
-		$.getJSON(location.origin+'/video?url='+url, (json)=> {
+			$.getJSON(location.origin+'/video?url='+url, (json)=> {
 
-			if(json)
-				$('#list').html(tmplItems({items: [json]}));
-		});
+				if(json)
+					$('#list').html(tmplItems({items: [json]}));
+			});
+		}
 	}
 
 	$('#list li').first().trigger('click');
@@ -238,6 +240,7 @@ url$.on('focus', function(e) {
 });
 
 //DEBUG
+if(location.hash=='#debug')
 setTimeout(()=>{
 var lis = "https://www.youtube.com/playlist?list=PL-g83uREdYKIfm3mZOHpEKrQK10gaLZgH";
 var vid = "https://www.youtube.com/watch?v=Vm55LE4V3kY"
