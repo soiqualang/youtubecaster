@@ -18,7 +18,7 @@ npm install
 ### Usage
 
 ```
-PORT=9065 node server.js
+npm run dev
 ```
 open browser in http://localhost:9065/ paste youtube link and play!
 
