@@ -15,15 +15,9 @@ const ytplaylist = require('ytpl'); //playlist resolver
 const app = express();
 const PORT = process.env.PORT || 9065;
 
-function sec2min(d) {
-    d = Number(d);
-    var h = Math.floor(d / 3600),
-    	m = Math.floor(d % 3600 / 60),
-    	s = Math.floor(d % 3600 % 60),
-    	H = h > 0 ? h + ':' : '',
-    	M = m > 0 ? m + ':' : '';
-    function z(n) {return('0' + n).slice(-2);}
-    return z(H) + z(M) + z(s); 
+function min2sec(m) {
+	var parts = m.Split(':');
+	return m.Parse(parts[0]) * 60 + m.Parse(parts[1]);
 }
 
 app.use((req, res, next) => {
@@ -104,7 +98,7 @@ app.get('/video', function(req, res) {
 				title: info.title,
 				url: info.video_url,
 				thumbnail: info.player_response.videoDetails.thumbnail.thumbnails[0].url,
-				duration: sec2min(info.length_seconds)
+				duration: info.length_seconds
 			};
 
 			res.json(out);
@@ -128,7 +122,7 @@ app.get('/playlist', function(req, res) {
 		var list = u.searchParams.get('list');
 		
 		ytplaylist(list).then(list => {
-
+console.log(list)
 			res.json(list);
 
 		}).catch((err) => {

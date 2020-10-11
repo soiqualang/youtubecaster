@@ -51,6 +51,10 @@ button {
 	color: #333;
 	cursor: pointer;
 }
+button:focus {
+	background:#fc1;
+	outline: none
+}
 a {
 	text-decoration: none;
 }
@@ -110,12 +114,29 @@ li span {
 }
 li img {
 	float: left;
-	width: auto;
+	width: 100px;
 	height: 60px;
 	margin-right: 5px;
 }
-li .bar {
-
+li progress {
+	width: 100%;
+	height: 4px;
+	position: absolute;
+	left: 100px;
+	right: 0;
+	bottom: 0;
+	border-radius: 0;
+	margin:0;
+	padding:0;
+	background:#eee;
+	color: red;
+	-webkit-appearance: none;
+}
+li progress::-moz-progress-bar { 
+    background: red;  
+}
+li progress::-webkit-progress-value {
+    background: red;
 }
 #err {
 	font-size: 14px;
@@ -169,10 +190,10 @@ li .bar {
 
 <script id="list-items" type="text/x-handlebars-template">
 {{#each items}}
-	<li data-url="{{url}}" title="{{title}}">
+	<li data-url="{{url}}" data-time="{{duration}}" title="{{title}}">
 		<img src="{{thumbnail}}" />
-	  	<span>{{title}}</span> <small>{{duration}}</small>
-	  	<span class='bar'></span>
+	  	<span>{{title}}</span> <small>{{sec2min duration}}</small>
+	  	<progress class='bar' value="0" max="{{duration}}"></progress>
 	</li>
 {{/each}}
 </script>
@@ -180,6 +201,18 @@ li .bar {
 var url$ = $('#url');
 var audio$ = $('#audio');
 var err$ = $('#err');
+
+Handlebars.registerHelper('sec2min', function(d) {
+    d = Number(d);
+    var h = Math.floor(d / 3600),
+    	m = Math.floor(d % 3600 / 60),
+    	s = Math.floor(d % 3600 % 60),
+    	H = h > 0 ? h + ':' : '',
+    	M = m > 0 ? m + ':' : '';
+    function z(n) {return('0' + n).slice(-2);}
+    return z(H) + z(M) + z(s)
+});
+
 var tmplItems = Handlebars.compile($('#list-items').html());
 
 window.app = {
@@ -188,11 +221,13 @@ window.app = {
 	err: function(m) {
 		err$.text(m);
 		clearTimeout(app.errt);
-		app.errt = setTimeout(()=>{
+		app.errt = setTimeout(()=> {
 			err$.text('')
 		},3000);
 	}
 };
+
+
 
 audio$.on('playing', function(e) {
 	$('.playing').css('visibility','visible');
@@ -201,6 +236,9 @@ audio$.on('playing', function(e) {
 
 	$('#list li').removeClass('play');
 	$('#list li[data-url="'+url+'"]').addClass('play')
+})
+.on('timeupdate', function() {
+   $('#list li.play progress').attr('value',this.currentTime)
 })
 .on('ended', function(e) {
 	console.log('play end');
@@ -258,7 +296,8 @@ $('#pause').on('click', function(e) {
 
 $('#list').on('click','li', function(e) {
 	var li$ = $(e.currentTarget),
-		url = li$.data('url')
+		url = li$.data('url'),
+		time = li$.data('time');
 	audio$.attr('src', location.origin+'/stream?url=' + url);
 	audio$[0].play();
 })
