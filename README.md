@@ -18,7 +18,7 @@ npm install
 ### Usage
 
 ```
-npm run dev
+npm start
 ```
 open browser in http://localhost:9065/ paste youtube link and play!
 
