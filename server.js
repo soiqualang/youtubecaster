@@ -109,7 +109,7 @@ app.get('/video', function(req, res) {
 
 			res.json(out);
 		}).catch((err) => {
-			console.log('Error:',err.code, err.message);
+			console.log('Error:', err.code, err.message);
 			res.json({err: 'video not found'})
 		});
 	}
@@ -132,7 +132,7 @@ app.get('/playlist', function(req, res) {
 			res.json(list);
 
 		}).catch((err) => {
-			console.log('Error:',err.code,err.message);
+			console.log('Error:', err.code, err.message);
 			res.json({err: 'playlist not found'})
 		});
 
