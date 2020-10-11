@@ -87,19 +87,14 @@ li {
 	position: relative;
 	height: 60px;
 }
-li .playing {
-	visibility: hidden;
-}
 li.play {
 	background:#fc1;
 }
-li.play .playing {
-	visibility: visible;
-}
-li small {
+li time {
 	position: absolute;
 	top:3px;
 	right:3px;
+	font-size: 14px;
 	background:#fff;
 	padding: 2px 4px;
 	line-height: 16px;
@@ -111,21 +106,21 @@ li span {
 	text-overflow: ellipsis;
 	width: 80%;
 	display: inline-block;
+	font-size: 15px;
 }
 li img {
-	float: left;
 	width: 100px;
 	height: 60px;
-	margin-right: 5px;
 }
 li progress {
 	width: 100%;
-	height: 4px;
+	height: 6px;
 	position: absolute;
 	left: 100px;
 	right: 0;
 	bottom: 0;
 	border-radius: 0;
+	border:none;
 	margin:0;
 	padding:0;
 	background:#eee;
@@ -190,10 +185,11 @@ li progress::-webkit-progress-value {
 
 <script id="list-items" type="text/x-handlebars-template">
 {{#each items}}
-	<li data-url="{{url}}" data-time="{{duration}}" title="{{title}}">
-		<img src="{{thumbnail}}" />
-	  	<span>{{title}}</span> <small>{{sec2min duration}}</small>
-	  	<progress class='bar' value="0" max="{{duration}}"></progress>
+	<li data-url="{{url}}" data-duration="{{duration}}" title="{{title}}">
+		<a href="{{url}}" target="_blank"><img src="{{thumbnail}}" /></a>
+	  	<span>{{title}}</span>
+	  	<time>{{sec2min duration}}</time>
+	  	<progress class='bar' value="0" max="100"></progress>
 	</li>
 {{/each}}
 </script>
@@ -208,7 +204,7 @@ Handlebars.registerHelper('sec2min', function(d) {
     	m = Math.floor(d % 3600 / 60),
     	s = Math.floor(d % 3600 % 60),
     	H = h > 0 ? h + ':' : '',
-    	M = m > 0 ? m + ':' : '';
+    	M = m + ':';
     function z(n) {return('0' + n).slice(-2);}
     return z(H) + z(M) + z(s)
 });
@@ -238,7 +234,8 @@ audio$.on('playing', function(e) {
 	$('#list li[data-url="'+url+'"]').addClass('play')
 })
 .on('timeupdate', function() {
-   $('#list li.play progress').attr('value',this.currentTime)
+	var p = (this.currentTime / $('#list li.play').data('duration')) * 100;
+   $('#list li.play progress').attr('value', p)
 })
 .on('ended', function(e) {
 	console.log('play end');
@@ -296,8 +293,7 @@ $('#pause').on('click', function(e) {
 
 $('#list').on('click','li', function(e) {
 	var li$ = $(e.currentTarget),
-		url = li$.data('url'),
-		time = li$.data('time');
+		url = li$.data('url');
 	audio$.attr('src', location.origin+'/stream?url=' + url);
 	audio$[0].play();
 })
@@ -319,8 +315,10 @@ url$.on('focus', function(e) {
 if(location.hash=='#debug')
 setTimeout(()=>{
 var lis = "https://www.youtube.com/playlist?list=PL-g83uREdYKIfm3mZOHpEKrQK10gaLZgH";
-var vid = "https://www.youtube.com/watch?v=Vm55LE4V3kY"
-url$.val(vid).trigger('focus')
+var vid = "https://www.youtube.com/watch?v=Vm55LE4V3kY";
+
+url$.val(lis).trigger('focus');
+
 },100)
 
 </script> 

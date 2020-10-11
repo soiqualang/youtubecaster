@@ -16,8 +16,8 @@ const app = express();
 const PORT = process.env.PORT || 9065;
 
 function min2sec(m) {
-	var parts = m.Split(':');
-	return m.Parse(parts[0]) * 60 + m.Parse(parts[1]);
+	var parts = m.split(':');
+	return parseInt(parts[0]) * 60 + parseInt(parts[1]);
 }
 
 app.use((req, res, next) => {
@@ -102,8 +102,11 @@ app.get('/video', function(req, res) {
 			};
 
 			res.json(out);
+			
 		}).catch((err) => {
+			
 			console.log('Error:', err.message);
+
 			var mes = 'video not found';
 			if(err.message=='Status code: 429')
 				mes = 'too many requests please try again later';
@@ -125,7 +128,12 @@ app.get('/playlist', function(req, res) {
 		var list = u.searchParams.get('list');
 		
 		ytplaylist(list).then(list => {
-console.log(list)
+
+			list.items = _.map(list.items, (i)=> {
+				i.duration = min2sec(i.duration)
+				return i
+			});
+
 			res.json(list);
 
 		}).catch((err) => {
