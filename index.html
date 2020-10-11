@@ -166,6 +166,7 @@ paste youtube link and listen in background like a podcast!
 	<li data-url="{{url}}" title="{{title}}">
 		<img src="{{thumbnail}}" />
 	  	<span>{{title}}</span> <small>{{duration}}</small>
+	  	<span class='bar'></span>
 	</li>
 {{/each}}
 </script>
@@ -178,6 +179,10 @@ var url$ = $('#url');
 var audio$ = $('#audio');
 var tmplItems = Handlebars.compile($('#list-items').html())
 
+var app = {
+	mode: 'video'//or 'playlist'
+};
+
 audio$.on('playing', function(e) {
 	$('.playing').css('visibility','visible');
 	
@@ -186,7 +191,12 @@ audio$.on('playing', function(e) {
 	$('#list li').removeClass('play');
 	$('#list li[data-url="'+url+'"]').addClass('play')
 })
-.on('pause ended', function(e) {
+.on('ended', function(e) {
+	console.log('play end');
+	var next$ = $('#list li.play').next('li');
+	if(app.mode==='playlist' && next$.length) {
+		next$.trigger('click');
+	}
 	$('.playing').css('visibility','hidden');
 	$('#list li').removeClass('play');
 });
@@ -197,6 +207,9 @@ $('#play').on('click', function(e) {
 
 	if($('#list li').length==0) {
 		if(url.includes('/playlist')) {
+			
+			app.mode = 'playlist';
+
 			$.getJSON(location.origin+'/playlist?url='+url, (json)=> {
 
 				if(json.items.length)
@@ -204,6 +217,8 @@ $('#play').on('click', function(e) {
 			});
 		}
 		else if(url.includes('/watch')) {
+
+			app.mode = 'video';
 
 			$.getJSON(location.origin+'/video?url='+url, (json)=> {
 
