@@ -235,8 +235,10 @@ audio$.on('playing', function(e) {
 	var p = (this.currentTime / $('#list li.play').data('duration')) * 100;
    $('#list li.play progress').attr('value', p)
 })
+.on('paused', function(e) {
+	$('.playing').css('visibility','hidden');
+})
 .on('ended', function(e) {
-	console.log('play end');
 	var next$ = $('#list li.play').next('li');
 	if(app.mode==='playlist' && next$.length) {
 		next$.trigger('click');
@@ -287,6 +289,7 @@ $('#play').on('click', function(e) {
 
 $('#pause').on('click', function(e) {
 	audio$[0].pause();
+	$('.playing').css('visibility','hidden');
 });
 
 $('#list').on('click','li', function(e) {
