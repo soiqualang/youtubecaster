@@ -8,6 +8,9 @@
 
 require [ffmpeg](https://ffmpeg.org/) installed
 
+based on https://github.com/JamesKyburz/youtube-audio-stream
+
+
 ```
 npm install
 ```
@@ -18,3 +21,4 @@ npm install
 PORT=9065 node server.js
 ```
 open browser in http://localhost:9065/ paste youtube link and play!
+
