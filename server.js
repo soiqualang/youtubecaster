@@ -15,6 +15,19 @@ const ytplaylist = require('ytpl'); //playlist resolver
 const app = express();
 const PORT = process.env.PORT || 9065;
 
+function sec2min(d) {
+    d = Number(d);
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+    var s = Math.floor(d % 3600 % 60);
+
+    var hDisplay = h > 0 ? h + ':' : '';
+    var mDisplay = m > 0 ? m + ':' : '';
+    var sDisplay = s;
+    function z(n) {return("0" + n).slice(-2);}
+    return z(hDisplay) + z(mDisplay) + z(sDisplay); 
+}
+
 app.use((req, res, next) => {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	console.log('Request:',new Date().toISOString(), ip, req.method, req.url);
@@ -24,15 +37,6 @@ app.use((req, res, next) => {
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
-
-/*app.get('/signin', function(req, res) {
-    res.sendFile(path.join(__dirname + '/signin.html'));
-});
-
-app.post('/login', passport.authenticate('local', {
-	successRedirect: '/',
-    failureRedirect: '/login'
-}));*/
 
 app.get(['/icon.svg','/favicon.ico'], function(req, res) {
     res.sendFile(path.join(__dirname + '/icon.svg'));
@@ -90,7 +94,7 @@ app.get('/video', function(req, res) {
 //
 	var u = new URL(req.query.url);
 
-	console.log('Process video...', u);
+	console.log('Process video...', req.query.url);
 
 	if(u.pathname==='/watch' || u.hostname==='youtu.be') { //video
 
@@ -102,10 +106,13 @@ app.get('/video', function(req, res) {
 				title: info.title,
 				url: info.video_url,
 				thumbnail: info.player_response.videoDetails.thumbnail.thumbnails[0].url,
-				duration: secondsToHms(info.length_seconds)
+				duration: sec2min(info.length_seconds)
 			};
 
 			res.json(out);
+		}).catch((err,m) => {
+			console.log('Error:',err.message);
+			res.json({err: 'video not found'})
 		});
 	}
 });
@@ -116,7 +123,7 @@ app.get('/playlist', function(req, res) {
 //
 	var u = new URL(req.query.url);
 
-	console.log('Process playlist...', u.href);
+	console.log('Process playlist...', req.query.url);
 
 	if(u.pathname==='/playlist') { //playlist
 
@@ -126,8 +133,9 @@ app.get('/playlist', function(req, res) {
 
 			res.json(list);
 
-		}).catch(err => {
-			console.error(err);
+		}).catch((err,m) => {
+			console.log('Error:',err.message);
+			res.json({err: 'playlist not found'})
 		});
 
 		return
@@ -140,16 +148,11 @@ app.listen(PORT, function () {
 });
 
 
+/*app.get('/signin', function(req, res) {
+    res.sendFile(path.join(__dirname + '/signin.html'));
+});
 
-function secondsToHms(d) {
-    d = Number(d);
-    var h = Math.floor(d / 3600);
-    var m = Math.floor(d % 3600 / 60);
-    var s = Math.floor(d % 3600 % 60);
-
-    var hDisplay = h > 0 ? h + ':' : '';
-    var mDisplay = m > 0 ? m + ':' : '';
-    var sDisplay = s;
-    function z(n) {return("0" + n).slice(-2);}
-    return z(hDisplay) + z(mDisplay) + z(sDisplay); 
-}
+app.post('/login', passport.authenticate('local', {
+	successRedirect: '/',
+    failureRedirect: '/login'
+}));*/
