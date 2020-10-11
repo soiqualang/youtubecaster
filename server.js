@@ -90,9 +90,9 @@ app.get('/video', function(req, res) {
 //
 	var u = new URL(req.query.url);
 
-	console.log('Process video...', u.href);
+	console.log('Process video...', u);
 
-	if(u.pathname==='/watch') { //video
+	if(u.pathname==='/watch' || u.hostname==='youtu.be') { //video
 
 		var id = u.searchParams.get('v');
 
@@ -150,5 +150,6 @@ function secondsToHms(d) {
     var hDisplay = h > 0 ? h + ':' : '';
     var mDisplay = m > 0 ? m + ':' : '';
     var sDisplay = s;
-    return hDisplay + mDisplay + sDisplay; 
+    function z(n) {return("0" + n).slice(-2);}
+    return z(hDisplay) + z(mDisplay) + z(sDisplay); 
 }
