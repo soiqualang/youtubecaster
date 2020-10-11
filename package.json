@@ -22,7 +22,6 @@
     "node": "10.x"
   },
   "devDependencies": {
-    "node-watch": "^0.7.0",
     "nodemon": "^2.0.4"
   }
 }

@@ -21,7 +21,7 @@ function sec2min(d) {
     	m = Math.floor(d % 3600 / 60),
     	s = Math.floor(d % 3600 % 60),
     	H = h > 0 ? h + ':' : '',
-    	M = m > 0 ? m + ':' : '';;
+    	M = m > 0 ? m + ':' : '';
     function z(n) {return('0' + n).slice(-2);}
     return z(H) + z(M) + z(s); 
 }
@@ -132,7 +132,7 @@ app.get('/playlist', function(req, res) {
 			res.json(list);
 
 		}).catch((err) => {
-			console.log('Error:',err.message);
+			console.log('Error:',err.code,err.message);
 			res.json({err: 'playlist not found'})
 		});
 
