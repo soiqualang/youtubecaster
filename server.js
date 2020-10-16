@@ -29,8 +29,8 @@ app.use((req, res, next) => {
 });
 
 app.use(express.static('static', {
-	maxAge: 1000*60*60*24*30*3,//in milliseconds, 3 months
-	etag: false
+//	maxAge: 1000*60*60*24*30*3,//in milliseconds, 3 months
+//	etag: false
 }));
 
 app.get('/stream', function(req, res) {
