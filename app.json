@@ -1,7 +1,7 @@
 {
   "name": "youtubecaster",
   "description": "",
-  "repository": "https://github.com/stefanocudini/youtubecaster",
+  "repository": "https://github.com/stefanocudini/youtubecast",
   "logo": "https://raw.githubusercontent.com/stefanocudini/youtubecaster/master/icon.svg",
   "keywords": ["streaming", "podcast"],
   "env": {

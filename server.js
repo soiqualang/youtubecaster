@@ -26,17 +26,7 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
-});
-
-app.get(['/icon.svg','/favicon.ico'], function(req, res) {
-    res.sendFile(path.join(__dirname + '/icon.svg'));
-});
-
-app.get('/logo.svg', function(req, res) {
-    res.sendFile(path.join(__dirname + '/logo.svg'));
-});
+app.use(express.static('static'));
 
 app.get('/stream', function(req, res) {
 
