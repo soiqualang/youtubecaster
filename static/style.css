@@ -87,22 +87,29 @@ li time {
 	font-size: 14px;
 	border-radius: 5px;
 }
-li span {
+li .tit {
 	overflow: hidden;
 	text-overflow: ellipsis;
-	width: 80%;
-	display: inline-block;
+	max-width: 70%;
 	font-size: 15px;
+	float: left;
+	padding: 3px
 }
 li img {
+	float: left;
 	width: 100px;
 	height: 60px;
 }
 li .down {
 	font-size: 14px;
 	position: absolute;
-	right: 5px;
-	bottom: -15px;
+	right: 3px;
+	bottom: 10px;
+	background:#fff;
+	padding: 2px 4px;
+	line-height: 16px;
+	font-size: 14px;
+	border-radius: 5px;
 }
 li progress {
 	width: auto;

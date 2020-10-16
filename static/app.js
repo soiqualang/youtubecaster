@@ -89,7 +89,7 @@ $('#play').on('click', function(e) {
 			app.err('it is not a youtube link')
 	}
 
-	$('#list li').first().trigger('click');
+	$('#list li .tit').first().trigger('click');
 });
 
 $('#pause').on('click', function(e) {
@@ -97,8 +97,9 @@ $('#pause').on('click', function(e) {
 	$('#playing').css('visibility','hidden');
 });
 
-$('#list').on('click','li', function(e) {
-	var li$ = $(e.currentTarget),
+$('#list').on('click','li .tit', function(e) {
+	console.log(e)
+	var li$ = $(e.currentTarget).parent('li'),
 		url = li$.data('url');
 	audio$.attr('src', location.origin+'/stream?url=' + url);
 	audio$[0].play();

@@ -20,14 +20,14 @@ function min2sec(m) {
 	return parseInt(parts[0]) * 60 + parseInt(parts[1]);
 }
 
-app.disable('x-powered-by');
-
+//logging
 app.use((req, res, next) => {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	console.log('Request:',new Date().toISOString(), ip, req.method, req.url);
 	next();
 });
 
+app.disable('x-powered-by');
 app.use(express.static('static', {
 //	maxAge: 1000*60*60*24*30*3,//in milliseconds, 3 months
 //	etag: false
