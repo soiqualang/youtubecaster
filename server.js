@@ -4,7 +4,7 @@ const path = require('path');
 const _ = require('underscore');
 //const url = require('url');
 
-const ytstream = require('youtube-audio-stream')
+const ytstream = require('youtube-audio-stream');
 //const decoder = require('lame').Decoder
 
 const ytdl = require('ytdl-core');
@@ -39,8 +39,7 @@ app.get('/stream', function(req, res) {
 
 	console.log('Process stream...', u.href);
 	
-	if(u.pathname==='/watch') {	//one video
-		console.log('Video loading: ',u.href)
+	if(u.pathname==='/watch') {
 		vurl = u.href;
 	}
 

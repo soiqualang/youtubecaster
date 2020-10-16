@@ -35,7 +35,8 @@ button {
 	color: #333;
 	cursor: pointer;
 }
-button:focus {
+button:focus,
+button:active {
 	background:#fc1;
 	outline: none
 }
