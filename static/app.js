@@ -118,7 +118,7 @@ url$.on('focus', function(e) {
 });
 
 //DEBUG
-if(location.hash=='#debug')
+if(location.hostname==='localhost')//location.hash=='#debug')
 setTimeout(()=>{
 var lis = "https://www.youtube.com/playlist?list=PL-g83uREdYKIfm3mZOHpEKrQK10gaLZgH";
 var vid = "https://www.youtube.com/watch?v=Vm55LE4V3kY";

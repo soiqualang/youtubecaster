@@ -2,7 +2,7 @@
 const express = require('express');
 const path = require('path');
 const _ = require('underscore');
-//const url = require('url');
+//const fs = require('fs');
 
 const ytstream = require('youtube-audio-stream');
 //const decoder = require('lame').Decoder
@@ -73,6 +73,50 @@ app.get('/stream', function(req, res) {
 	}
 });
 
+
+app.get('/download', function(req, res) {
+
+	if(!req.query.url) {
+		res.status(400).send('url param not found');
+		return
+	}
+
+	var u = new URL(req.query.url);
+
+	var ref = new URL(req.header('Referer'));
+
+	console.log('Process download...', u.href);
+	
+	if(u.pathname==='/watch' && ref.hostname==='youtubecaster.herokuapp.com') {
+		vurl = u.href;
+	}
+	else
+		return;
+
+    var id = u.searchParams.get('v');
+    
+    res.setHeader('Content-Type', 'video/mp4');
+    res.setHeader('Content-Disposition', 'attachment; filename="' + id + '.mp4"');
+
+	try {
+
+		ytdl(vurl, {filter: format => format.container === 'mp4'})
+		.pipe(res).on('error', function(e) {
+			console.log('stream error', e)
+		}).on('data', function(e) {
+			console.log('ONDATA download...', e)
+		})
+		//.pipe(decoder())
+	}
+	catch(e) {
+
+		console.log('stream exception', e);
+		res.removeHeader('Transfer-Encoding');
+		res.set('Connection', 'close');
+		res.status(400).send('url error')
+		res.end();
+	}
+});
 
 app.get('/video', function(req, res) {
 

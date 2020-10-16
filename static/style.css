@@ -70,6 +70,7 @@ li {
 	white-space: nowrap;
 	text-align: left;
 	position: relative;
+	overflow:hidden;
 	height: 60px;
 }
 li.play {
@@ -96,6 +97,12 @@ li span {
 li img {
 	width: 100px;
 	height: 60px;
+}
+li .down {
+	font-size: 14px;
+	position: absolute;
+	right: 5px;
+	bottom: -15px;
 }
 li progress {
 	width: auto;
