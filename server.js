@@ -168,7 +168,8 @@ app.get('/playlist', function(req, res) {
 		ytplaylist(list).then(list => {
 
 			list.items = _.map(list.items, (i)=> {
-				i.duration = min2sec(i.duration)
+				if(i.duration)
+					i.duration = min2sec(i.duration);
 				return i
 			});
 
