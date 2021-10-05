@@ -114,14 +114,16 @@ console.log('CLICK', url)
 
 async function paste(input) {
 
-  const text = await navigator.clipboard.readText();
+	if (navigator.clipboard) {
+	  const text = await navigator.clipboard.readText();
 
-  if(text.substr(0,4)=='http') {
-  	input.value = text;
-  }
-  else {
-  	app.error('Not youtube url in clipboard')
-  }
+	  if(text.substr(0,4)=='http') {
+	  	input.value = text;
+	  }
+	  else {
+	  	app.error('Not youtube url in clipboard')
+	  }
+	}
 }
 
 url$.on('focus', function(e) {
