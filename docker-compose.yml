@@ -14,4 +14,4 @@ services:
       - "9065:9065"
     # environment:
     #   - API_HOST=
-    #restart: always
+    restart: always
