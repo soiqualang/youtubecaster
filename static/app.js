@@ -1,3 +1,4 @@
+
 var url$ = $('#url');
 var audio$ = $('#audio');
 var err$ = $('#err');
@@ -18,10 +19,10 @@ var tmplItems = Handlebars.compile($('#list-items').html());
 window.app = {
 	errt: null,
 	mode: 'video',//or 'playlist'
-	err: function(m) {
+	error: function(m) {
 		err$.text(m);
-		clearTimeout(app.errt);
-		app.errt = setTimeout(()=> {
+		clearTimeout(app.errort);
+		app.errort = setTimeout(()=> {
 			err$.text('')
 		},3000);
 	}
@@ -30,7 +31,7 @@ window.app = {
 
 audio$.on('playing', function(e) {
 	$('#playing').css('visibility','visible');
-	
+
 	var url = audio$.attr('src').split('url=')[1];
 
 	$('#list li').removeClass('play');
@@ -53,20 +54,23 @@ audio$.on('playing', function(e) {
 });
 
 $('#play').on('click', function(e) {
+	let url;
 	try {
-	var url = new URL($.trim($('#url').val()));
-	}catch(err) {
-		app.err(err.message)
+		url = new URL($.trim($('#url').val()));
 	}
+	catch(err) {
+		app.error(err.message)
+	}
+
 	if($('#list li').length==0) {
 		if(url.pathname=='/playlist') {
-			
+
 			app.mode = 'playlist';
 
 			$.getJSON(location.origin+'/playlist?url='+url, (json)=> {
-				
+
 				if(json.err){
-					app.err(json.err);
+					app.error(json.err);
 				}
 				else if(json.items.length)
 					$('#list').html(tmplItems(json));
@@ -79,14 +83,14 @@ $('#play').on('click', function(e) {
 			$.getJSON(location.origin+'/video?url='+url, (json)=> {
 
 				if(json.err) {
-					app.err(json.err)
+					app.error(json.err)
 				}
 				else
 					$('#list').html(tmplItems({items: [json]}));
 			});
 		}
 		else
-			app.err('it is not a youtube link')
+			app.error('it is not a youtube link')
 	}
 
 	$('#list li .tit').first().trigger('click');
@@ -98,32 +102,41 @@ $('#pause').on('click', function(e) {
 });
 
 $('#list').on('click','li .tit', function(e) {
-	console.log(e)
+
 	var li$ = $(e.currentTarget).parent('li'),
 		url = li$.data('url');
+
+console.log('CLICK', url)
+
 	audio$.attr('src', location.origin+'/stream?url=' + url);
 	audio$[0].play();
 })
 
 async function paste(input) {
+
   const text = await navigator.clipboard.readText();
-  if(text.substr(0,4)=='http')
+
+  if(text.substr(0,4)=='http') {
   	input.value = text;
+  }
+  else {
+  	app.error('Not youtube url in clipboard')
+  }
 }
 
 url$.on('focus', function(e) {
+
 	paste(this);
-	setTimeout(()=> {
-		$('#play').trigger('click');
-	},100)
 });
 
 //DEBUG
-if(location.hostname==='localhost')//location.hash=='#debug')
-setTimeout(()=>{
-var lis = "https://www.youtube.com/playlist?list=PL-g83uREdYKIfm3mZOHpEKrQK10gaLZgH";
-var vid = "https://www.youtube.com/watch?v=Vm55LE4V3kY";
+//if(location.hostname==='localhost') {
+if(location.hash==='#debug') {
+	setTimeout(()=>{
+	//var lis = "https://www.youtube.com/playlist?list=PL-g83uREdYKIfm3mZOHpEKrQK10gaLZgH";
+	var vid = "https://www.youtube.com/watch?v=DCd3JbzhTx0";
 
-url$.val(lis).trigger('focus');
+	url$.val(vid).trigger('focus');
 
-},100)
+	},100)
+}

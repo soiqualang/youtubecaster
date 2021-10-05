@@ -4,19 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "Stefano Cudini",
+    "email": "stefano.cudini@gmail.com",
+    "url": "https://opengeo.tech"
+  },
+  "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
     "passport": "^0.4.1",
     "underscore": "^1.11.0",
-    "youtube-audio-stream": "^0.3.6",
-    "ytdl-core": "2.1.7",
-    "ytpl": "^1.0.1"
+    "youtube-audio-stream": "^0.3.23",
+    "ytdl-core": "4.9.1",
+    "ytpl": "^2.2.3"
   },
   "engines": {
     "node": "10.x"

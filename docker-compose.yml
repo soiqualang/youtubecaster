@@ -1,0 +1,17 @@
+version: '3'
+
+networks:
+  default:
+    driver: bridge
+
+services:
+  youtubecaster:
+    image: youtubecaster:latest
+    container_name: youtubecaster
+    build:
+      context: ./
+    ports:
+      - "9065:9065"
+    # environment:
+    #   - API_HOST=
+    #restart: always

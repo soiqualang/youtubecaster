@@ -43,7 +43,7 @@ app.get('/stream', function(req, res) {
 	var u = new URL(req.query.url);
 
 	console.log('Process stream...', u.href);
-	
+
 	if(u.pathname==='/watch') {
 		vurl = u.href;
 	}
@@ -86,7 +86,7 @@ app.get('/download', function(req, res) {
 	var ref = new URL(req.header('Referer'));
 
 	console.log('Process download...', u.href);
-	
+
 	if(u.pathname==='/watch' && ref.hostname==='youtubecaster.herokuapp.com') {
 		vurl = u.href;
 	}
@@ -94,7 +94,7 @@ app.get('/download', function(req, res) {
 		return;
 
     var id = u.searchParams.get('v');
-    
+
     res.setHeader('Content-Type', 'video/mp4');
     res.setHeader('Content-Disposition', 'attachment; filename="' + id + '.mp4"');
 
@@ -133,16 +133,20 @@ app.get('/video', function(req, res) {
 		ytdl.getInfo(u.href).then(info => {
 
 			var out = {
-				title: info.title,
-				url: info.video_url,
-				thumbnail: info.player_response.videoDetails.thumbnail.thumbnails[0].url,
-				duration: info.length_seconds
+				title: info.videoDetails.title,
+				url: info.videoDetails.video_url,
+				thumbnail: info.videoDetails.thumbnail.thumbnails[0].url,
+				duration: Number(info.videoDetails.lengthSeconds),
+				channel: info.videoDetails.ownerProfileUrl
 			};
 
+//console.log('ytdl.getInfo',JSON.stringify(info));
+console.log('ytdl.getInfo',out);
+
 			res.json(out);
-			
+
 		}).catch((err) => {
-			
+
 			console.log('Error:', err.message);
 
 			var mes = 'video not found';
@@ -164,7 +168,7 @@ app.get('/playlist', function(req, res) {
 	if(u.pathname==='/playlist') { //playlist
 
 		var list = u.searchParams.get('list');
-		
+
 		ytplaylist(list).then(list => {
 
 			list.items = _.map(list.items, (i)=> {
