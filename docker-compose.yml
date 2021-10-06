@@ -11,7 +11,7 @@ services:
     build:
       context: ./
     ports:
-      - "9065:9065"
+      - "127.0.0.1:9065:9065"
     # environment:
     #   - API_HOST=
     restart: always
