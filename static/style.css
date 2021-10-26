@@ -10,14 +10,14 @@ body {
 }
 input {
 	width: 80%;
-	max-width: 700px;
+	max-width: 600px;
 	font-size: 25px;
 	text-align: center;
 	border-radius: 3px;
 	border:1px solid #ccc;
 	box-shadow: inset 1px 1px 2px #ddd;
 	color: #aaa;
-	background: #fff;	
+	background: #fff;
 }
 input:focus {
 	outline: none;
@@ -50,6 +50,8 @@ a {
 }
 #playing {
 	visibility: hidden;
+	height: 40px;
+	margin-bottom: 14px;
 	clear: both;
 }
 ul {
@@ -126,8 +128,8 @@ li progress {
 	color: red;
 	-webkit-appearance: none;
 }
-li progress::-moz-progress-bar { 
-    background: red;  
+li progress::-moz-progress-bar {
+    background: red;
 }
 li progress::-webkit-progress-value {
     background: red;
