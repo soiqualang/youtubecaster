@@ -80,8 +80,8 @@ li.play {
 }
 li time {
 	position: absolute;
-	top:3px;
-	right:3px;
+	top:5px;
+	right:5px;
 	font-size: 14px;
 	background:#fff;
 	padding: 2px 4px;
@@ -105,9 +105,8 @@ li img {
 li .down {
 	font-size: 14px;
 	position: absolute;
-	right: 3px;
+	right: 5px;
 	bottom: 10px;
-	background:#fff;
 	padding: 2px 4px;
 	line-height: 16px;
 	font-size: 14px;
@@ -115,7 +114,7 @@ li .down {
 }
 li progress {
 	width: auto;
-	height: 6px;
+	height: 10px;
 	position: absolute;
 	left: 100px;
 	right: 0;

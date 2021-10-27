@@ -40,9 +40,12 @@ app.get('/stream', function(req, res) {
 		return
 	}
 
-	var u = new URL(req.query.url);
+	var u = new URL(req.query.url),
+		begin = (Number(req.query.startime)*1000) || 0;
 
-	console.log('Process stream...', u.href);
+//TODO https://github.com/JamesKyburz/youtube-audio-stream/issues/67
+
+	console.log('Process stream...', u.href, 'begin:',begin);
 
 	if(u.pathname==='/watch') {
 		vurl = u.href;
@@ -55,7 +58,7 @@ app.get('/stream', function(req, res) {
 
 	try {
 
-		ytstream(vurl)
+		ytstream(vurl, {begin})
 		.pipe(res).on('error', function(e) {
 			console.log('stream error', e)
 		}).on('data', function(e) {
